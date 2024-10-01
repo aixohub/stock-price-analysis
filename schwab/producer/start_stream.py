@@ -15,7 +15,7 @@ def delivery_report(err, msg):
     if err is not None:
         print(f"Message delivery failed: {err}")
     else:
-        print(f"Message delivered to {msg.topic()} [{msg.decode('utf-8')}]")
+        print(f"Message delivered to {msg.topic()}")
 
 
 def sendKafka(data, *args, **kwargs):
@@ -58,7 +58,7 @@ def main():
     # these three do the same thing
     # streamer.send(streamer.basic_request("LEVELONE_EQUITIES", "ADD", parameters={"keys": "AMD,INTC", "fields": "0,1,2,3,4,5,6,7,8"}))
     # streamer.send(streamer.level_one_equities("AMD,INTC", "0,1,2,3,4,5,6,7,8", command="ADD"))
-    streamer.send(streamer.level_one_equities("NVDA", "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22"))
+    streamer.send(streamer.level_one_equities("NVDA,SMCI", "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22"))
 
     # streamer.send(streamer.level_one_options("GOOGL 240712C00200000", "0,1,2,3,4,5,6,7,8")) # key must be from option chains api call.
 
