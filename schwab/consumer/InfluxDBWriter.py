@@ -2,7 +2,7 @@ import os
 
 import influxdb_client
 from dotenv import load_dotenv
-from influxdb_client import Point, WritePrecision
+from influxdb_client import Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 
 load_dotenv()
@@ -11,12 +11,8 @@ load_dotenv()
 class InfluxDBWriter:
     def __init__(self, bucket, measurement):
         self.bucket = bucket
+        self.org = os.environ.get("INFLUX_ORG")
         self.measurement = measurement
-        # self.client = influxdb_client.InfluxDBClient(url="http://influxdb:8086",
-        #             token="smtzr6epf3DfZ3o0cLSbX7P6US6qS-jwHp3BK8xeeh7G7M4N7oQ3hiEmGOqkTtUK1HTLz-lELvhEwbDEXD7qEw==",
-        #             org="primary"
-        #             )
-        print(os.environ.get("INFLUX_URL"))
         self.client = influxdb_client.InfluxDBClient(url=os.environ.get("INFLUX_URL"),
                                                      token=os.environ.get("INFLUX_TOKEN"),
                                                      org=os.environ.get("INFLUX_ORG")
@@ -27,20 +23,6 @@ class InfluxDBWriter:
     def open(self, partition_id, epoch_id):
         print("Opened %d, %d" % (partition_id, epoch_id))
         return True
-
-    # def process(self, row):
-    def process(self, timestamp, tags, fields):
-        point = Point(self.measurement)
-
-        for key, value in tags.items():
-            point.tag(key, value)
-
-        # Add fields to the Point
-        for key, value in fields.items():
-            point.field(key, value)
-
-        point.time(timestamp, WritePrecision.S)
-        self.write_api.write(bucket=self.bucket, record=point)
 
     def close(self, error):
         self.write_api.__del__()
@@ -81,3 +63,17 @@ class InfluxDBWriter:
         except Exception as e:
             print(f"Connection error: {str(e)}")
             return False
+
+    # def process(self, row):
+    def process(self, timestamp, tags, fields):
+        point = Point(self.measurement)
+
+        for key, value in tags.items():
+            point.tag(key, value)
+
+        # Add fields to the Point
+        for key, value in fields.items():
+            point.field(key, value)
+
+        print(point)
+        self.write_api.write(bucket=self.bucket, org=self.org, record=point)
