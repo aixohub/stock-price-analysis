@@ -40,8 +40,6 @@ def sendKafka(data, *args, **kwargs):
                 timestamp_s = timestamp / 1000
                 # 转换为可读的日期时间格式
                 readable_time = datetime.utcfromtimestamp(timestamp_s)
-                utc_now = datetime.utcnow()
-                server_time = datetime.utcfromtimestamp(utc_now)
                 content_datas = v1.get("content", None)
                 for c_data in content_datas:
                     stock_code = c_data.get("key", None)
@@ -58,7 +56,6 @@ def sendKafka(data, *args, **kwargs):
                     data_stock = {
                         "symbol": stock_code,
                         "date": readable_time,
-                        "serverTime": server_time,
                         "open": open_price,
                         "high": high,
                         "low": low,
