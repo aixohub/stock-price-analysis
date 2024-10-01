@@ -1,6 +1,8 @@
 confluent_kafka
 influxdb-client
-pyspark
 python-dotenv
 findspark
+pyspark
+apache-flink
 pandas
+websockets

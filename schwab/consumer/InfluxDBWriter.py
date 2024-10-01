@@ -65,7 +65,7 @@ class InfluxDBWriter:
             return False
 
     # def process(self, row):
-    def process(self, timestamp, tags, fields):
+    def process(self, tags, fields):
         point = Point(self.measurement)
 
         for key, value in tags.items():
