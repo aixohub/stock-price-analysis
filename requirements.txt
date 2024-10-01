@@ -1,0 +1,5 @@
+confluent_kafka
+influxdb-client
+pyspark
+python-dotenv
+findspark
