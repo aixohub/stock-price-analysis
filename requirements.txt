@@ -3,6 +3,6 @@ influxdb-client
 python-dotenv
 findspark
 pyspark
-apache-flink
 pandas
 websockets
+mysql-connector-python
